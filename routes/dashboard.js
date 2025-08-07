@@ -1,7 +1,7 @@
 // routes/dashboard.js
 const express = require('express');
 const router = express.Router();
-const { Assessment, Employee } = require('../models');
+const { Assessment, Employee } = require('../models/Assessment');
 const { protect } = require('../middleware/authMiddleware');
 
 // GET /api/dashboard/summary
