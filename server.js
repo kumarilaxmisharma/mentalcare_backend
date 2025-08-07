@@ -1,7 +1,11 @@
 import express from 'express';
-import cors from 'cors';
 import dotenv from 'dotenv';
-// etc.
+import cors from 'cors';
+import db from './models/index.js'; // Note the .js extension is often needed
+
+// Import your routes
+import authRoutes from './routes/auth.js';
+import questionRoutes from './routes/questions.js';
 
 
 // server.js
@@ -30,6 +34,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/assessments', assessmentRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+
+
 
 const PORT = process.env.API_PORT || 5000;
 
