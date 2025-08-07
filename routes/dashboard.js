@@ -4,6 +4,10 @@ const router = express.Router();
 const { Assessment, Employee } = require('../models/Assessment');
 const { protect } = require('../middleware/authMiddleware');
 
+
+// ONLY a logged-in user who is ALSO an 'employer' can access the summary.
+router.get('/summary', protect, restrictTo('employer'), getDashboardSummary);
+
 // GET /api/dashboard/summary
 // In a real app, you might add another middleware to check if req.employee.role is 'employer'
 router.get('/summary', protect, async (req, res) => {

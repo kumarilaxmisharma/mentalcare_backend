@@ -11,6 +11,9 @@ const calculateRisk = (score) => {
   return 'High';
 };
 
+// Any logged-in user can submit an assessment.
+router.post('/submit', protect, submitAssessment);
+
 // POST /api/assessments/submit
 router.post('/submit', protect, async (req, res) => {
   const { answers } = req.body;
@@ -23,7 +26,14 @@ router.post('/submit', protect, async (req, res) => {
   const score = answers.reduce((sum, value) => sum + Number(value), 0);
   const riskLevel = calculateRisk(score);
 
-  await Assessment.create({ employeeId, answers, score, riskLevel });
+  await Assessment.create({
+    department: req.user.department,
+    gender: req.user.gender,
+    role: req.user.role,
+    answers,
+    score,
+    riskLevel
+  });
   const recommendation = await Recommendation.findOne({ where: { riskLevel } });
 
   res.status(201).json({

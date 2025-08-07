@@ -2,6 +2,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/sequelize');
 
+
+
 const Assessment = sequelize.define('Assessment', {
   id: {
     type: DataTypes.INTEGER,
@@ -20,6 +22,19 @@ const Assessment = sequelize.define('Assessment', {
     type: DataTypes.ENUM('Low', 'Moderate', 'High'),
     allowNull: false,
   },
+
+  //Add on questions in order to 
+  department: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  gender: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+ 
 });
+
+
 
 module.exports = Assessment;

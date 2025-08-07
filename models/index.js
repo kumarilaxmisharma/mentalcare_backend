@@ -4,11 +4,12 @@ const Employee = require('./Employee');
 const Assessment = require('./Assessment');
 const Question = require('./Question');
 const Recommendation = require('./Recommendation');
+const Company = require('./Company');
 // const User = require ('./User');
 
-// Define Relationships
-Employee.hasMany(Assessment, { foreignKey: 'employeeId' });
-Assessment.belongsTo(Employee, { foreignKey: 'employeeId' });
+// Define Relationships remove this line
+// Employee.hasMany(Assessment, { foreignKey: 'employeeId' });
+// Assessment.belongsTo(Employee, { foreignKey: 'employeeId' });
 
 const db = {
   sequelize,
@@ -17,6 +18,7 @@ const db = {
   Assessment,
   Question,
   Recommendation,
+  Company,
   // User,
 };
 
