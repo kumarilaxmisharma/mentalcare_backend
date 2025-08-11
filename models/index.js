@@ -1,25 +1,27 @@
 // models/index.js
 const sequelize = require('../config/sequelize');
-const Employee = require('./Employee');
+const Company = require('./Company');
+const Employer = require('./Employer'); // ✅ Changed from User
 const Assessment = require('./Assessment');
 const Question = require('./Question');
 const Recommendation = require('./Recommendation');
-const Company = require('./Company');
-// const User = require ('./User');
 
-// Define Relationships remove this line
-// Employee.hasMany(Assessment, { foreignKey: 'employeeId' });
-// Assessment.belongsTo(Employee, { foreignKey: 'employeeId' });
+// An Employer must belong to a Company.
+Company.hasMany(Employer, { foreignKey: 'companyId' });
+Employer.belongsTo(Company, { foreignKey: 'companyId' });
+
+// An anonymous Assessment belongs to a Company.
+Company.hasMany(Assessment, { foreignKey: 'companyId' });
+Assessment.belongsTo(Company, { foreignKey: 'companyId' });
 
 const db = {
   sequelize,
   Sequelize: require('sequelize'),
-  Employee,
+  Company,
+  Employer, // ✅ Changed from User
   Assessment,
   Question,
   Recommendation,
-  Company,
-  // User,
 };
 
 module.exports = db;

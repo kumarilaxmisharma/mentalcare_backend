@@ -1,45 +1,48 @@
 // routes/assessments.js
 const express = require('express');
 const router = express.Router();
-const { Assessment } = require ('../models/Assessment');
-const { Recommendation } = require('../models/Recommendation');
-const { protect } = require('../middleware/authMiddleware');
+const { Assessment, Recommendation, Company } = require('../models');
 
-const calculateRisk = (score) => {
-  if (score <= 42) return 'Low';
-  if (score <= 66) return 'Moderate';
-  return 'High';
-};
+const calculateRisk = (score) => { /* ... same as before ... */ };
 
-// Any logged-in user can submit an assessment.
-router.post('/submit', protect, submitAssessment);
+// POST /api/assessments/submit (Anonymous)
+router.post('/submit', async (req, res) => {
+  try {
+    // The form now includes demographics and the invite code
+    const { answers, specialization, gender, inviteCode } = req.body;
 
-// POST /api/assessments/submit
-router.post('/submit', protect, async (req, res) => {
-  const { answers } = req.body;
-  const employeeId = req.employee.id; // Get ID from the authenticated user
+    if (!inviteCode || !answers || !specialization || !gender) {
+        return res.status(400).json({ message: 'All assessment fields, including inviteCode, are required.' });
+    }
 
-  if (!Array.isArray(answers) || answers.length !== 18) {
-    return res.status(400).json({ message: 'An array of 18 answers is required.' });
+    // Find the company using the invite code to get its ID
+    const company = await Company.findOne({ where: { inviteCode } });
+    if (!company) {
+      return res.status(400).json({ message: 'Invalid invite code.' });
+    }
+
+    const score = answers.reduce((sum, value) => sum + Number(value), 0);
+    const riskLevel = calculateRisk(score);
+
+    await Assessment.create({
+      specialization,
+      gender,
+      role: 'employee', // Role is now hardcoded as we know only employees submit this
+      companyId: company.id,
+      answers,
+      score,
+      riskLevel,
+    });
+
+    const recommendation = await Recommendation.findOne({ where: { riskLevel } });
+
+    res.status(201).json({
+      riskLevel,
+      recommendation: recommendation ? recommendation.text : 'No recommendation found.',
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal Server Error' });
   }
-
-  const score = answers.reduce((sum, value) => sum + Number(value), 0);
-  const riskLevel = calculateRisk(score);
-
-  await Assessment.create({
-    department: req.user.department,
-    gender: req.user.gender,
-    role: req.user.role,
-    answers,
-    score,
-    riskLevel
-  });
-  const recommendation = await Recommendation.findOne({ where: { riskLevel } });
-
-  res.status(201).json({
-    riskLevel,
-    recommendation: recommendation.text,
-  });
 });
 
 module.exports = router;

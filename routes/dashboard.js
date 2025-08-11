@@ -1,37 +1,36 @@
-// routes/dashboard.js
 const express = require('express');
 const router = express.Router();
-const { Assessment, Employee } = require('../models/Assessment');
-const { protect } = require('../middleware/authMiddleware');
+const { protect, restrictTo } = require('../middleware/authMiddleware');
+const { Assessment } = require('../models');
 
-
-// ONLY a logged-in user who is ALSO an 'employer' can access the summary.
-router.get('/summary', protect, restrictTo('employer'), getDashboardSummary);
-
-// GET /api/dashboard/summary
-// In a real app, you might add another middleware to check if req.employee.role is 'employer'
-router.get('/summary', protect, async (req, res) => {
+const getDashboardSummary = async (req, res) => {
   try {
+    const companyId = req.user.companyId;
+
     const assessments = await Assessment.findAll({
-      include: [{ model: Employee, attributes: ['department', 'gender'] }],
+      where: { companyId: companyId },
     });
 
+    // ✅ Initialize with bySpecialization
     const summary = {
       totalAssessments: assessments.length,
       byRiskLevel: { Low: 0, Moderate: 0, High: 0 },
-      byDepartment: {},
+      bySpecialization: {},
       byGender: {},
     };
 
     assessments.forEach(assessment => {
-      const { riskLevel } = assessment;
-      const { department, gender } = assessment.Employee;
+      // ✅ Use specialization, not department
+      const { riskLevel, specialization, gender } = assessment;
 
       summary.byRiskLevel[riskLevel]++;
-      if (!summary.byDepartment[department]) {
-        summary.byDepartment[department] = { Low: 0, Moderate: 0, High: 0 };
+
+      // ✅ Correctly reference bySpecialization
+      if (!summary.bySpecialization[specialization]) {
+        summary.bySpecialization[specialization] = { Low: 0, Moderate: 0, High: 0 };
       }
-      summary.byDepartment[department][riskLevel]++;
+      summary.bySpecialization[specialization][riskLevel]++;
+
       if (!summary.byGender[gender]) {
         summary.byGender[gender] = { Low: 0, Moderate: 0, High: 0 };
       }
@@ -40,8 +39,11 @@ router.get('/summary', protect, async (req, res) => {
 
     res.status(200).json(summary);
   } catch (error) {
+    console.error("Error in getDashboardSummary:", error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
-});
+};
+
+router.get('/summary', protect, restrictTo('employer'), getDashboardSummary);
 
 module.exports = router;
