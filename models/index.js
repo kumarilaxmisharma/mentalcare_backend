@@ -14,6 +14,10 @@ Employer.belongsTo(Company, { foreignKey: 'companyId' });
 Company.hasMany(Assessment, { foreignKey: 'companyId' });
 Assessment.belongsTo(Company, { foreignKey: 'companyId' });
 
+// An Employer must belong to a Company.
+Company.hasMany(Employer, { foreignKey: 'companyId' });
+Employer.belongsTo(Company, { foreignKey: 'companyId' });
+
 const db = {
   sequelize,
   Sequelize: require('sequelize'),

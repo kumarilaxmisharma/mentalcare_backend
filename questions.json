@@ -1,117 +1,234 @@
 [
   {
     "id": 1,
-    "question": "Age",
-    "choices": ["18-24", "25-34", "35-44", "45-54", "55+"]
+    "text": "Age",
+    "type": "multiple-choice",
+    "choices": [
+      {"label": "18-24", "value": 0},
+      {"label": "25-34", "value": 1},
+      {"label": "35-44", "value": 2},
+      {"label": "45-54", "value": 3},
+      {"label": "55+", "value": 4}
+    ]
   },
   {
     "id": 2,
-    "question": "Gender",
-    "choices": ["Female", "Male", "Unknown/Non-Binary"]
+    "text": "Gender",
+    "type": "multiple-choice",
+    "choices": [
+      {"label": "Female", "value": 0},
+      {"label": "Male", "value": 1},
+      {"label": "Unknown/Non-Binary", "value": 2}
+    ]
   },
   {
     "id": 3,
-    "question": "Are you self-employed?",
-    "choices": ["Yes", "No", "Unknown"]
+    "text": "Are you self-employed?",
+    "type": "multiple-choice",
+    "choices": [
+      {"label": "No", "value": 0},
+      {"label": "Yes", "value": 1}
+    ]
   },
   {
     "id": 4,
-    "question": "Do you have a family history of mental illness?",
-    "choices": ["Yes", "No"]
+    "text": "Do you have a family history of mental illness?",
+    "type": "multiple-choice",
+    "choices": [
+      {"label": "No", "value": 0},
+      {"label": "Yes", "value": 1}
+    ]
   },
   {
     "id": 5,
-    "question": "Have you sought treatment for a mental health condition?",
-    "choices": ["Yes", "No"]
+    "text": "Have you sought treatment for a mental health condition?",
+    "type": "multiple-choice",
+    "choices": [
+      {"label": "No", "value": 0},
+      {"label": "Yes", "value": 1}
+    ]
   },
   {
     "id": 6,
-    "question": "If you have a mental health condition, do you feel that it interferes with your work?",
-    "choices": ["Never", "Often", "Rarely", "Sometimes", "Unknown"]
+    "text": "If you have a mental health condition, do you feel that it interferes with your work?",
+    "type": "multiple-choice",
+    "choices": [
+      {"label": "Never", "value": 0},
+      {"label": "Rarely", "value": 1},
+      {"label": "Sometimes", "value": 2},
+      {"label": "Often", "value": 3}
+    ]
   },
   {
     "id": 7,
-    "question": "How many employees does your company or organization have?",
-    "choices": ["1-5", "6-25", "26-100", "100-500", "500-1000", "More than 1000"]
+    "text": "How many employees does your company or organization have?",
+    "type": "multiple-choice",
+    "choices": [
+      {"label": "1-5", "value": 0},
+      {"label": "6-25", "value": 1},
+      {"label": "26-100", "value": 2},
+      {"label": "100-500", "value": 3},
+      {"label": "500-1000", "value": 4},
+      {"label": "More than 1000", "value": 5}
+    ]
   },
   {
     "id": 8,
-    "question": "Do you work remotely (outside of an office) at least 50% of the time?",
-    "choices": ["Yes", "No"]
+    "text": "Do you work remotely (outside of an office) at least 50% of the time?",
+    "type": "multiple-choice",
+    "choices": [
+      {"label": "No", "value": 0},
+      {"label": "Yes", "value": 1}
+    ]
   },
   {
     "id": 9,
-    "question": "Is your employer primarily a tech company/organization?",
-    "choices": ["Yes", "No"]
+    "text": "Is your employer primarily a tech company/organization?",
+    "type": "multiple-choice",
+    "choices": [
+      {"label": "No", "value": 0},
+      {"label": "Yes", "value": 1}
+    ]
   },
   {
     "id": 10,
-    "question": "Does your employer provide mental health benefits?",
-    "choices": ["Yes", "No", "Don't know"]
+    "text": "Does your employer provide mental health benefits?",
+    "type": "multiple-choice",
+    "choices": [
+      {"label": "No", "value": 0},
+      {"label": "Yes", "value": 1},
+      {"label": "Don't know", "value": -1}
+    ]
   },
   {
     "id": 11,
-    "question": "Do you know the options for mental health care your employer provides?",
-    "choices": ["Yes", "No", "Not sure"]
+    "text": "Do you know the options for mental health care your employer provides?",
+    "type": "multiple-choice",
+    "choices": [
+      {"label": "No", "value": 0},
+      {"label": "Yes", "value": 1},
+      {"label": "Not sure", "value": -1}
+    ]
   },
   {
     "id": 12,
-    "question": "Has your employer ever discussed mental health as part of an employee wellness program?",
-    "choices": ["Yes", "No", "Don't know"]
+    "text": "Has your employer ever discussed mental health as part of an employee wellness program?",
+    "type": "multiple-choice",
+    "choices": [
+      {"label": "No", "value": 0},
+      {"label": "Yes", "value": 1},
+      {"label": "Don't know", "value": -1}
+    ]
   },
   {
     "id": 13,
-    "question": "Does your employer provide resources to learn more about mental health issues and how to seek help?",
-    "choices": ["Yes", "No", "Don't know"]
+    "text": "Does your employer provide resources to learn more about mental health issues and how to seek help?",
+    "type": "multiple-choice",
+    "choices": [
+      {"label": "No", "value": 0},
+      {"label": "Yes", "value": 1},
+      {"label": "Don't know", "value": -1}
+    ]
   },
   {
     "id": 14,
-    "question": "Is your anonymity protected if you choose to take advantage of mental health or substance abuse treatment resources?",
-    "choices": ["Yes", "No", "Don't know"]
+    "text": "Is your anonymity protected if you choose to take advantage of mental health or substance abuse treatment resources?",
+    "type": "multiple-choice",
+    "choices": [
+      {"label": "No", "value": 0},
+      {"label": "Yes", "value": 1},
+      {"label": "Don't know", "value": -1}
+    ]
   },
   {
     "id": 15,
-    "question": "How easy is it for you to take medical leave for a mental health condition?",
-    "choices": ["Yes", "No", "Don't know"]
+    "text": "How easy is it for you to take medical leave for a mental health condition?",
+    "type": "multiple-choice",
+    "choices": [
+      {"label": "Very difficult", "value": 0},
+      {"label": "Somewhat difficult", "value": 1},
+      {"label": "Don't know", "value": 2},
+      {"label": "Somewhat easy", "value": 3},
+      {"label": "Very easy", "value": 4}
+    ]
   },
   {
     "id": 16,
-    "question": "Do you think that discussing a mental health issue with your employer would have negative consequences?",
-    "choices": ["Yes", "No", "Maybe"]
+    "text": "Do you think that discussing a mental health issue with your employer would have negative consequences?",
+    "type": "multiple-choice",
+    "choices": [
+      {"label": "No", "value": 0},
+      {"label": "Maybe", "value": 1},
+      {"label": "Yes", "value": 2}
+    ]
   },
   {
     "id": 17,
-    "question": "Do you think that discussing a physical health issue with your employer would have negative consequences?",
-    "choices": ["Yes", "No", "Don't know"]
+    "text": "Do you think that discussing a physical health issue with your employer would have negative consequences?",
+    "type": "multiple-choice",
+    "choices": [
+      {"label": "No", "value": 0},
+      {"label": "Maybe", "value": 1},
+      {"label": "Yes", "value": 2}
+    ]
   },
   {
     "id": 18,
-    "question": "Would you be willing to discuss a mental health issue with your coworkers?",
-    "choices": ["Yes", "No", "Some of them"]
+    "text": "Would you be willing to discuss a mental health issue with your coworkers?",
+    "type": "multiple-choice",
+    "choices": [
+      {"label": "No", "value": 0},
+      {"label": "Some of them", "value": 1},
+      {"label": "Yes", "value": 2}
+    ]
   },
   {
     "id": 19,
-    "question": "Would you be willing to discuss a mental health issue with your direct supervisor(s)?",
-    "choices": ["Yes", "No", "Some of them"]
+    "text": "Would you be willing to discuss a mental health issue with your direct supervisor(s)?",
+    "type": "multiple-choice",
+    "choices": [
+      {"label": "No", "value": 0},
+      {"label": "Some of them", "value": 1},
+      {"label": "Yes", "value": 2}
+    ]
   },
   {
     "id": 20,
-    "question": "Would you bring up a mental health issue with a potential employer in an interview?",
-    "choices": ["Yes", "No", "Maybe"]
+    "text": "Would you bring up a mental health issue with a potential employer in an interview?",
+    "type": "multiple-choice",
+    "choices": [
+      {"label": "No", "value": 0},
+      {"label": "Maybe", "value": 1},
+      {"label": "Yes", "value": 2}
+    ]
   },
   {
     "id": 21,
-    "question": "Would you bring up a physical health issue with a potential employer in an interview?",
-    "choices": ["Yes", "No", "Maybe"]
+    "text": "Would you bring up a physical health issue with a potential employer in an interview?",
+    "type": "multiple-choice",
+    "choices": [
+      {"label": "No", "value": 0},
+      {"label": "Maybe", "value": 1},
+      {"label": "Yes", "value": 2}
+    ]
   },
   {
     "id": 22,
-    "question": "Do you feel that your employer takes mental health as seriously as physical health?",
-    "choices": ["Yes", "No", "Don't know"]
+    "text": "Do you feel that your employer takes mental health as seriously as physical health?",
+    "type": "multiple-choice",
+    "choices": [
+      {"label": "No", "value": 0},
+      {"label": "Yes", "value": 1},
+      {"label": "Don't know", "value": -1}
+    ]
   },
   {
     "id": 23,
-    "question": "Have you heard of or observed negative consequences for coworkers with mental health conditions in your workplace?",
-    "choices": ["Yes", "No"]
+    "text": "Have you heard of or observed negative consequences for coworkers with mental health conditions in your workplace?",
+    "type": "multiple-choice",
+    "choices": [
+      {"label": "No", "value": 0},
+      {"label": "Yes", "value": 1}
+    ]
   }
 ]

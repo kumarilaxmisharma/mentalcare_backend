@@ -12,8 +12,13 @@ const Question = sequelize.define('Question', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  type: { // ✅ Add this field
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'multiple-choice'
+  },
   choices: {
-    type: DataTypes.JSON, // This stores the array of choices
+    type: DataTypes.JSON,
     allowNull: false,
   },
 });

@@ -9,6 +9,7 @@ const authRoutes = require('./routes/auth');
 const questionRoutes = require('./routes/questions');
 const assessmentRoutes = require('./routes/assessments');
 const dashboardRoutes = require('./routes/dashboard');
+const profileRoutes = require('./routes/profile');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -28,6 +29,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/assessments', assessmentRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+// At the bottom with your other app.use() calls
+app.use('/api/profile', profileRoutes);
 
 const PORT = process.env.API_PORT || 3000;
 

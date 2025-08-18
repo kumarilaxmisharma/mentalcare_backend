@@ -1,16 +1,9 @@
 // routes/questions.js
 const express = require('express');
 const router = express.Router();
-const { Question } = require('../models');
+const questionsController = require('../controllers/questionsController');
 
 // GET /api/questions
-router.get('/', async (req, res) => {
-  try {
-    const questions = await Question.findAll({ order: [['id', 'ASC']] });
-    res.status(200).json(questions);
-  } catch (error) {
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
-});
+router.get('/', questionsController.getAllQuestions);
 
 module.exports = router;
