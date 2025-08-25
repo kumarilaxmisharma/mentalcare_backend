@@ -17,6 +17,10 @@ const Question = sequelize.define('Question', {
     allowNull: false,
     defaultValue: 'multiple-choice'
   },
+  key: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   choices: {
     type: DataTypes.JSON,
     allowNull: false,

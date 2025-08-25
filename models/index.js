@@ -5,6 +5,8 @@ const Employer = require('./Employer'); // ✅ Changed from User
 const Assessment = require('./Assessment');
 const Question = require('./Question');
 const Recommendation = require('./Recommendation');
+const Gender = require('./Gender');
+const Specialization = require('./Specialization');
 
 // An Employer must belong to a Company.
 Company.hasMany(Employer, { foreignKey: 'companyId' });
@@ -14,9 +16,6 @@ Employer.belongsTo(Company, { foreignKey: 'companyId' });
 Company.hasMany(Assessment, { foreignKey: 'companyId' });
 Assessment.belongsTo(Company, { foreignKey: 'companyId' });
 
-// An Employer must belong to a Company.
-Company.hasMany(Employer, { foreignKey: 'companyId' });
-Employer.belongsTo(Company, { foreignKey: 'companyId' });
 
 const db = {
   sequelize,
@@ -26,6 +25,8 @@ const db = {
   Assessment,
   Question,
   Recommendation,
+  Gender,
+  Specialization
 };
 
 module.exports = db;

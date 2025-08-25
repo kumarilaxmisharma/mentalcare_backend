@@ -18,8 +18,8 @@ const Assessment = sequelize.define('Assessment', {
     allowNull: false,
   },
   riskLevel: {
-    type: DataTypes.ENUM('Low', 'Moderate', 'High'),
-    allowNull: false,
+  type: DataTypes.STRING, // Defaults to VARCHAR(255), which is plenty of space
+  allowNull: false
   },
 
   //Add on questions in order to 

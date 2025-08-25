@@ -1,9 +1,9 @@
 // routes/questions.js
 const express = require('express');
 const router = express.Router();
-const questionsController = require('../controllers/questionsController');
+const { getAllQuestions } = require('../controllers/questionsController');
 
-// GET /api/questions
-router.get('/', questionsController.getAllQuestions);
+// This handles GET requests to '/api/questions'
+router.get('/', getAllQuestions);
 
 module.exports = router;
