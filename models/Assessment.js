@@ -21,16 +21,19 @@ const Assessment = sequelize.define('Assessment', {
   type: DataTypes.STRING, // Defaults to VARCHAR(255), which is plenty of space
   allowNull: false
   },
-
   //Add on questions in order to 
-  specialization: { // <-- Renamed
-    type: DataTypes.ENUM('Core Product & Enginnering', 'Infrastructure & Operation', 'Data & Analytic', 'Security & Support'),
+  specializationId: {
+    type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: 'Specializations', // This is the table name
+      key: 'id',
+    },
   },
   gender: {
     type: DataTypes.STRING,
     allowNull: false
-  },
+  }
  
 });
 

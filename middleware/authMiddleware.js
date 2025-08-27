@@ -1,5 +1,8 @@
+// middleware/authMiddleware.js
 const jwt = require('jsonwebtoken');
 const { Employer } = require('../models');
+
+ // Make sure you import your Employer model
 
 const protect = async (req, res, next) => {
   let token;
@@ -12,33 +15,38 @@ const protect = async (req, res, next) => {
       // 2. Verify token
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      // 3. Find user from the token's ID and attach to request object
-      req.user = await Employer.findByPk(decoded.id, {
+      // 3. Find the employer by the ID from the token
+      //    We exclude the password from the result for security
+      const currentEmployer = await Employer.findByPk(decoded.id, {
         attributes: { exclude: ['password'] }
       });
-      
-      next(); // Move to the next middleware/route handler
+
+      // 4. THE FIX: Check if an employer was found
+      if (!currentEmployer) {
+        return res.status(401).json({ message: 'Not authorized, employer not found' });
+      }
+
+      // 5. Attach the employer object to the request
+      req.employer = currentEmployer; // Attach to req.employer
+      next();
+
     } catch (error) {
-      return res.status(401).json({ message: 'Not authorized, token failed' });
+      res.status(401).json({ message: 'Not authorized, token failed' });
     }
   }
 
   if (!token) {
-    return res.status(401).json({ message: 'Not authorized, no token' });
+    res.status(401).json({ message: 'Not authorized, no token' });
   }
 };
 
-// ✅ ADD THIS ENTIRE FUNCTION
-const restrictTo = (...roles) => {
+const restrictTo = (role) => {
   return (req, res, next) => {
-    // Check if the logged-in user's role is included in the roles allowed for this route
-    // Note: Since we only have employers, this will check for 'employer'
-    if (!req.user || !roles.includes(req.user.role)) {
-      return res.status(403).json({ message: 'You do not have permission to perform this action' });
+    if (!req.employer || req.employer.role !== role) {
+      return res.status(403).json({ message: 'Forbidden' });
     }
-    next(); // If they have permission, move on
+    next();
   };
 };
 
-// ✅ MAKE SURE YOU EXPORT BOTH FUNCTIONS
 module.exports = { protect, restrictTo };

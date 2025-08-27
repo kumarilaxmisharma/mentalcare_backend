@@ -1,5 +1,28 @@
+
+
 {
-  "Low": "Your results indicate a low risk, which is great. To maintain your well-being, focus on proactive habits like regular exercise and taking short breaks.",
-  "Moderate": "Your results suggest a moderate level of stress. It's important to take proactive steps. Prioritize self-care, connect with others, and explore your company's mental health resources.",
-  "High": "Your responses indicate a high level of distress. Your well-being is the priority, and seeking support is a sign of strength. We strongly encourage you to speak with a mental health professional and use your company's EAP or other confidential benefits."
+  "Low": {
+    "summary": "Your results indicate a low risk, which is great. Here are a few tips to maintain your well-being:",
+    "tips": [
+      "Continue practicing self-awareness and mindfulness.",
+      "Maintain a regular sleep schedule.",
+      "Engage in hobbies that you enjoy."
+    ]
+  },
+  "Moderate": {
+    "summary": "Your results suggest a moderate level of stress. It's important to take proactive steps. Consider the following:",
+    "tips": [
+      "Practice deep-breathing exercises for 5-10 minutes daily.",
+      "Incorporate 30 minutes of light physical activity into your routine.",
+      "Connect with a friend or family member to share how you're feeling."
+    ]
+  },
+  "High": {
+    "summary": "Your results indicate a high level of stress. It is strongly recommended to seek support. Here are immediate next steps:",
+    "tips": [
+      "Consider speaking with a mental health professional.",
+      "Reach out to your organization's HR or wellness representative.",
+      "Prioritize rest and reduce non-essential commitments."
+    ]
+  }
 }

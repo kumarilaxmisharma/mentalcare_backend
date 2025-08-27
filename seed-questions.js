@@ -4,10 +4,7 @@ const { Question, sequelize } = require('./models');
 const questionsData = require('./data/questions.json');
 
 // This will format the data correctly
-const formattedQuestions = questionsData.map(question => ({
-  ...question,
-  choices: JSON.stringify(question.choices)
-}));
+const formattedQuestions = questionsData;
 
 async function seedQuestions() {
   try {

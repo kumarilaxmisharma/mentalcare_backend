@@ -2,8 +2,8 @@ const axios = require('axios');
 const db = require('../models/index.js');
 const fs = require('fs');
 const path = require('path');
+const { Assessment, Specialization } = db;
 
-const { Assessment } = db;
 
 // --- Module-level Data Loading (for efficiency) ---
 // Load the questions file, which acts as a map between answer values and feature labels.
@@ -48,60 +48,65 @@ const formatDataForModel = (answers, gender, specialization) => {
  */
 const submitAssessment = async (req, res) => {
   try {
-    // Gender is no longer a separate field in the request body
-    const { answers, specialization, companyId } = req.body;
+    // FIX #3: Get companyId from the request body.
+    const { answers, gender, specializationId, companyId } = req.body;
+    // Use the variables directly, not 'payload'
+    console.log({ answers, gender, specializationId, companyId }); 
 
-    // --- ✅ START: New code to find the gender value ---
+    // Validate that we have the data we need.
+    if (!answers || !gender || !specializationId) {
+      return res.status(400).json({ message: 'Missing required assessment data.' });
+    }
 
-    // Find the gender question from our questions data
-    const genderQuestion = questionsData.find(q => q.key === 'gender');
-    
-    // Get the numerical answer for gender from the answers array (using its ID as index - 1)
-    const genderAnswerValue = answers[genderQuestion.id - 1];
-    
-    // Find the matching choice to get the text label (e.g., "Female")
-    const genderChoice = genderQuestion.choices.find(c => c.value === genderAnswerValue);
-    
-    // This is the value we'll save to the database for the dashboard
-    const genderLabel = genderChoice ? genderChoice.label : 'Unknown';
+    // FIX #1: Use the correct Sequelize method 'findByPk' to find the specialization.
+    const specialization = await Specialization.findByPk(specializationId);
 
-    // --- ✅ END: New code ---
+    if (!specialization) {
+      return res.status(404).json({ error: 'Specialization not found for the given ID.' });
+    }
 
-    // 1. Format all 23 answers for the AI model
-    const modelInput = formatDataForModel(answers, specialization);
+    // Now you have the correct name.
+    const specializationName = specialization.name;
 
-    // ... (the rest of the function stays the same)
-    // 2. Call the Python ML Service
-    const mlServiceResponse = await axios.post('http://localhost:5001/predict', modelInput);
+    // FIX #2: Call formatDataForModel with all THREE required arguments in the correct order.
+    const modelInput = formatDataForModel(answers, gender, specializationName);
+
+    // Call the Python ML Service
+    const mlServiceResponse = await axios.post('http://localhost:5007/predict', modelInput);
     const predictionResult = mlServiceResponse.data;
 
-    // ... (lookup recommendation)
+    // Look up the recommendation based on the risk level
     const riskLevel = predictionResult.risk_level_label;
-    const recommendationKey = riskLevel.split(' ')[0];
+    const recommendationKey = riskLevel.split(' ')[0]; // e.g., "Low"
     const recommendationText = recommendationsData[recommendationKey] || "Please consult with HR for next steps.";
 
-    // 4. Save the final assessment to the database
+    // Save the final assessment to the database
     await Assessment.create({
       answers: JSON.stringify(answers),
       riskLevel: riskLevel,
-      specialization,
-      gender: genderLabel, // ✅ Use the gender label we found
-      companyId,
+      specializationId: specializationId, // Save the ID
+      gender: gender, // Save the gender string from the frontend
+      companyId: companyId, // Save the companyId
       score: predictionResult.risk_level_code || 0,
     });
 
-    // 5. Send a success response
+    
+
+    // Send a success response back to the frontend
     res.status(201).json({
       riskLevel: riskLevel,
       recommendation: recommendationText,
     });
 
   } catch (error) {
-    console.error('Error submitting assessment:', error.response ? error.response.data : error.message);
+    // Improved error logging for easier debugging
+    console.error('Error submitting assessment:', error.message);
+    if (error.response) {
+      console.error('Error details from service:', error.response.data);
+    }
     res.status(500).json({ message: 'Failed to submit assessment.' });
   }
 };
-
 
 /**
  * Controller to fetch all assessments for a specific company.
@@ -118,8 +123,12 @@ const getCompanyAssessments = async (req, res) => {
 
     const assessments = await Assessment.findAll({
       where: { companyId: companyId },
-      // To protect privacy, only select anonymous, aggregated data fields
-      attributes: ['riskLevel', 'specialization', 'gender', 'createdAt']
+      // ✅ CHANGED: We now join the Specialization table
+      attributes: ['riskLevel', 'gender', 'createdAt'], // Removed 'specialization'
+      include: [{
+        model: Specialization,
+        attributes: ['name'] // Only fetch the 'name' field from the Specialization table
+      }]
     });
 
     res.status(200).json({

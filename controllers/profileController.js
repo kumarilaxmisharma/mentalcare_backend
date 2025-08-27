@@ -1,22 +1,26 @@
-// routes/profile.js
-const express = require('express');
-const router = express.Router();
-const { protect } = require('../middleware/authMiddleware'); // Your 'protect' function
-const { Employer, Company } = require('../models');
+// controllers/profileController.js
+const { Employer, Company, Invite } = require('../models'); // ✅ ADD THIS LINE
 
-// @desc    Get current employer's profile including their company info
+// @desc    Get current employer's profile
 // @route   GET /api/profile/me
 // @access  Private
-router.get('/me', protect, async (req, res) => {
+exports.getMe = async (req, res) => {
   try {
-    // The 'protect' middleware already found the logged-in user (req.user).
-    // Now, we find them again but also include their company's data.
-    const employerProfile = await Employer.findByPk(req.user.id, {
-      attributes: { exclude: ['password'] }, 
-      include: {
-        model: Company,
-        attributes: ['name', 'inviteCode']
-      }
+    const userId = req.employer.id;
+
+    // This line caused the error because 'Employer' was not defined
+    const employerProfile = await Employer.findByPk(userId, {
+      attributes: { exclude: ['password'] },
+      include: [
+        { model: Company,
+          attributes: ['id', 'name']
+         },
+        { 
+          model: Invite, 
+          // Optionally, you can specify attributes to include/exclude for invites
+          attributes: ['code']
+        }
+      ]
     });
 
     if (!employerProfile) {
@@ -25,8 +29,7 @@ router.get('/me', protect, async (req, res) => {
 
     res.status(200).json(employerProfile);
   } catch (error) {
+    console.error('Profile Error:', error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
-});
-
-module.exports = router;
+};

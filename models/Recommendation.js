@@ -8,11 +8,7 @@ const Recommendation = sequelize.define('Recommendation', {
     autoIncrement: true,
     primaryKey: true,
   },
-  riskLevel: {
-    type: DataTypes.ENUM('Low', 'Moderate', 'High'),
-    unique: true,
-    allowNull: false,
-  },
+  
   text: {
     type: DataTypes.TEXT,
     allowNull: false,

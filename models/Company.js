@@ -14,12 +14,7 @@ const Company = sequelize.define('Company', {
     allowNull: false,
     unique: true,
   },
-  inviteCode: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4, // This automatically generates a new UUID
-    allowNull: false,
-    unique: true,
-  }
+  
 });
 
 module.exports = Company;

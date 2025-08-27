@@ -1,7 +1,7 @@
 // Controller for questions
 const { Question }  = require('../models');
 
-exports.getAllQuestions = async (req, res) => {
+exports.getAllQuestions = async (_req, res) => {
   try {
     const questions = await Question.findAll({ order: [['id', 'ASC']] });
     res.status(200).json(questions);

@@ -1,9 +1,12 @@
-// seed-options.js
 const db = require('./models');
 
 const seedOptions = async () => {
   try {
     console.log('Seeding specializations and genders...');
+
+    // Force sync to recreate the table
+    await db.Specialization.sync({ force: true });
+    await db.Gender.sync({ force: true });
 
     // Seed Specializations
     await db.Specialization.bulkCreate([
@@ -30,6 +33,4 @@ const seedOptions = async () => {
   }
 };
 
-module.exports = seedOptions;
-
-    
+seedOptions();
